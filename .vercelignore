@@ -1,0 +1,16 @@
+node_modules
+.git
+.next
+.vinext
+dist
+out
+.env*
+.dev.vars*
+.local
+.data
+.wrangler
+coverage
+work
+outputs
+*.log
+*.tsbuildinfo

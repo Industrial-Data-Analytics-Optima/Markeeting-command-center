@@ -1,0 +1,12 @@
+CREATE TABLE IF NOT EXISTS hub_workspaces(id TEXT PRIMARY KEY, name TEXT NOT NULL);
+CREATE TABLE IF NOT EXISTS hub_users(id TEXT PRIMARY KEY,email TEXT NOT NULL UNIQUE,name TEXT NOT NULL,password_hash TEXT NOT NULL);
+CREATE TABLE IF NOT EXISTS hub_members(workspace_id TEXT NOT NULL REFERENCES hub_workspaces(id),user_id TEXT NOT NULL REFERENCES hub_users(id),role TEXT NOT NULL CHECK(role IN ('super_admin','admin')),active INTEGER NOT NULL DEFAULT 1,PRIMARY KEY(workspace_id,user_id));
+CREATE TABLE IF NOT EXISTS hub_brands(id TEXT PRIMARY KEY,workspace_id TEXT NOT NULL REFERENCES hub_workspaces(id),name TEXT NOT NULL,UNIQUE(workspace_id,name));
+CREATE TABLE IF NOT EXISTS hub_brand_access(workspace_id TEXT NOT NULL,user_id TEXT NOT NULL,brand_id TEXT NOT NULL REFERENCES hub_brands(id),PRIMARY KEY(workspace_id,user_id,brand_id),FOREIGN KEY(workspace_id,user_id) REFERENCES hub_members(workspace_id,user_id));
+CREATE TABLE IF NOT EXISTS hub_sessions(token_hash TEXT PRIMARY KEY,user_id TEXT NOT NULL,workspace_id TEXT NOT NULL,expires_at INTEGER NOT NULL,created_at INTEGER NOT NULL,FOREIGN KEY(workspace_id,user_id) REFERENCES hub_members(workspace_id,user_id));
+CREATE TABLE IF NOT EXISTS hub_invites(token_hash TEXT PRIMARY KEY,workspace_id TEXT NOT NULL REFERENCES hub_workspaces(id),email TEXT,role TEXT NOT NULL CHECK(role IN ('super_admin','admin')),brand_ids TEXT NOT NULL DEFAULT '[]',expires_at INTEGER NOT NULL,used_at INTEGER,created_by TEXT);
+CREATE UNIQUE INDEX IF NOT EXISTS hub_pending_invite ON hub_invites(workspace_id,email) WHERE used_at IS NULL;
+CREATE TABLE IF NOT EXISTS hub_login_limits(key TEXT PRIMARY KEY,attempts INTEGER NOT NULL,reset_at INTEGER NOT NULL);
+CREATE TABLE IF NOT EXISTS hub_audit(id TEXT PRIMARY KEY,workspace_id TEXT NOT NULL,actor_id TEXT NOT NULL,action TEXT NOT NULL,target_id TEXT,created_at INTEGER NOT NULL);
+CREATE TABLE IF NOT EXISTS hub_connection_brands(connection_id TEXT NOT NULL REFERENCES social_connections(id),brand_id TEXT NOT NULL REFERENCES hub_brands(id),PRIMARY KEY(connection_id,brand_id));
+CREATE TABLE IF NOT EXISTS hub_oauth_states(token_hash TEXT PRIMARY KEY,session_hash TEXT NOT NULL,workspace_id TEXT NOT NULL,provider TEXT NOT NULL,brand_id TEXT NOT NULL,verifier TEXT NOT NULL,expires_at INTEGER NOT NULL);

@@ -1,0 +1,11 @@
+ALTER TABLE hub_posts ADD COLUMN planned_at INTEGER;
+ALTER TABLE hub_posts ADD COLUMN editorial_status TEXT NOT NULL DEFAULT 'none' CHECK(editorial_status IN ('none','in_review','changes_requested','approved'));
+ALTER TABLE hub_posts ADD COLUMN reviewer_id TEXT;
+ALTER TABLE hub_posts ADD COLUMN submitted_by TEXT;
+ALTER TABLE hub_posts ADD COLUMN reviewed_by TEXT;
+ALTER TABLE hub_posts ADD COLUMN reviewed_at INTEGER;
+ALTER TABLE hub_posts ADD COLUMN review_note TEXT;
+ALTER TABLE hub_posts ADD COLUMN edited_by TEXT;
+UPDATE hub_posts SET edited_by=created_by;
+CREATE INDEX hub_posts_editorial ON hub_posts(workspace_id,editorial_status,planned_at);
+CREATE TABLE hub_editorial_comments(id TEXT PRIMARY KEY,workspace_id TEXT NOT NULL,post_id TEXT NOT NULL REFERENCES hub_posts(id),author_id TEXT NOT NULL REFERENCES hub_users(id),body TEXT NOT NULL,created_at INTEGER NOT NULL);

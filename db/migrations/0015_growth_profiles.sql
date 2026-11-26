@@ -1,0 +1,11 @@
+CREATE TABLE hub_page_follower_snapshots(page_id TEXT NOT NULL REFERENCES hub_linkedin_pages(id),workspace_id TEXT NOT NULL,brand_id TEXT NOT NULL,day TEXT NOT NULL,total INTEGER NOT NULL,captured_at INTEGER NOT NULL,PRIMARY KEY(page_id,day));
+CREATE TABLE hub_page_follower_gains(page_id TEXT NOT NULL REFERENCES hub_linkedin_pages(id),workspace_id TEXT NOT NULL,brand_id TEXT NOT NULL,day TEXT NOT NULL,organic INTEGER,paid INTEGER,captured_at INTEGER NOT NULL,PRIMARY KEY(page_id,day));
+CREATE TABLE hub_page_audience(page_id TEXT NOT NULL REFERENCES hub_linkedin_pages(id),workspace_id TEXT NOT NULL,brand_id TEXT NOT NULL,dimension TEXT NOT NULL,segment_key TEXT NOT NULL,label TEXT NOT NULL,followers INTEGER NOT NULL,captured_at INTEGER NOT NULL,PRIMARY KEY(page_id,dimension,segment_key));
+CREATE TABLE hub_page_growth_status(page_id TEXT PRIMARY KEY REFERENCES hub_linkedin_pages(id),workspace_id TEXT NOT NULL,brand_id TEXT NOT NULL,checked_at INTEGER NOT NULL,total_synced_at INTEGER,gains_synced_at INTEGER,audience_synced_at INTEGER,error_message TEXT);
+CREATE TABLE hub_audience_labels(segment_key TEXT PRIMARY KEY,label TEXT NOT NULL,updated_at INTEGER NOT NULL);
+ALTER TABLE hub_leads ADD COLUMN industry TEXT NOT NULL DEFAULT '';
+ALTER TABLE hub_leads ADD COLUMN job_title TEXT NOT NULL DEFAULT '';
+ALTER TABLE hub_leads ADD COLUMN country TEXT NOT NULL DEFAULT '';
+ALTER TABLE hub_leads ADD COLUMN company_size TEXT NOT NULL DEFAULT '';
+ALTER TABLE hub_leads ADD COLUMN interests TEXT NOT NULL DEFAULT '';
+ALTER TABLE hub_leads ADD COLUMN profile_source TEXT NOT NULL DEFAULT 'manual';

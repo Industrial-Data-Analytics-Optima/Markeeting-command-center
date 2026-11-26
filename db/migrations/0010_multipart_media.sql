@@ -1,0 +1,2 @@
+CREATE TABLE hub_media_uploads(id TEXT PRIMARY KEY,workspace_id TEXT NOT NULL,brand_id TEXT NOT NULL,created_by TEXT NOT NULL,object_key TEXT NOT NULL,upload_id TEXT NOT NULL,name TEXT NOT NULL,bytes INTEGER NOT NULL,status TEXT NOT NULL DEFAULT 'uploading',updated_at INTEGER NOT NULL,expires_at INTEGER NOT NULL);
+CREATE TABLE hub_media_upload_parts(upload_id TEXT NOT NULL REFERENCES hub_media_uploads(id),part_number INTEGER NOT NULL,etag TEXT NOT NULL,PRIMARY KEY(upload_id,part_number));

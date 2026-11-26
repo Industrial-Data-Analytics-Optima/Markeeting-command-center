@@ -1,0 +1,11 @@
+node_modules/
+.next/
+.data/
+.local/
+review-evidence/
+package-lock.json
+public/
+*.sql
+next-env.d.ts
+*.tsbuildinfo
+.openai/

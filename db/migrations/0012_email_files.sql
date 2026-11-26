@@ -1,0 +1,1 @@
+CREATE TABLE hub_email_files(id TEXT PRIMARY KEY,workspace_id TEXT NOT NULL,brand_id TEXT NOT NULL REFERENCES hub_brands(id),object_key TEXT NOT NULL,name TEXT NOT NULL,mime TEXT NOT NULL,bytes INTEGER NOT NULL,created_by TEXT NOT NULL,created_at INTEGER NOT NULL);

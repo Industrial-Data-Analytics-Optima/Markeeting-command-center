@@ -1,0 +1,9 @@
+{
+  "sourceFileCount": 202,
+  "sourceBytes": 3229742,
+  "knownLocalSecretValueMatches": 0,
+  "credentialPatternMatches": 0,
+  "forbiddenRuntimeOrDependencyFiles": 0,
+  "productionDataIncluded": false,
+  "scope": "Tracked-source-derived review candidate with reviewed cleanup/hardening; no Git history, dependencies, credentials, uploads or local databases."
+}
